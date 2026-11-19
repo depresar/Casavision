@@ -57,19 +57,6 @@
   } else finish();
   setTimeout(finish, 3500); // never keep the page covered
 
-  /* ---------- page curtain on internal navigation ---------- */
-  var curtain = $('.curtain');
-  window.addEventListener('pageshow', function (e) { if (e.persisted && curtain) curtain.classList.remove('is-cover'); });
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[data-go]');
-    if (!a || !curtain || reduce || e.metaKey || e.ctrlKey || e.shiftKey) return;
-    var href = a.getAttribute('href');
-    if (!href || href.charAt(0) === '#') return;
-    e.preventDefault();
-    curtain.classList.add('is-cover');
-    setTimeout(function () { window.location.href = href; }, 850);
-  });
-
   /* ---------- fit giant words to their box ---------- */
   function fit() {
     $$('[data-fit]').forEach(function (el) {

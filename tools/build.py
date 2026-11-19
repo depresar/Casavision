@@ -233,7 +233,6 @@ def preloader():
     <span class="pl-sub">Creative atelier</span>
   </div>
 </div>
-<div class="curtain" aria-hidden="true"><span class="pl-mono"></span></div>
 '''
 
 

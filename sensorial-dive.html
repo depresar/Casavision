@@ -9,24 +9,33 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" href="assets/css/site.css">
 <link rel="icon" href="assets/brand/monogram.png">
+<style>.pm-item{left:var(--l);top:var(--t);width:var(--w)}.pm-word{left:var(--l);top:var(--t)}@media (max-width:760px){.pm-item{left:var(--ml);top:var(--mt);width:var(--mw)}.pm-word{left:var(--ml);top:var(--mt)}}</style>
+
 </head>
 <body>
-<style>.pm-item{left:var(--l);top:var(--t);width:var(--w)}.pm-word{left:var(--l);top:var(--t)}@media (max-width:760px){.pm-item{left:var(--ml);top:var(--mt);width:var(--mw)}.pm-word{left:var(--ml);top:var(--mt)}}</style>
-<div class="curtain" aria-hidden="true"><img src="assets/brand/monogram.png" alt=""></div>
+<div class="preloader" aria-hidden="true">
+  <div class="pl-in">
+    <span class="pl-logo"></span>
+    <span class="pl-bar"><i></i></span>
+    <span class="pl-meta label"><span>Dubai, UAE</span><span class="pl-num">0</span></span>
+  </div>
+</div>
+<div class="curtain" aria-hidden="true"><span class="pl-logo"></span></div>
 <header class="hdr wrap">
   <div class="grid">
-    <a class="brand" href="index.html" data-go aria-label="CASAVISION, home"><img src="assets/brand/monogram.png" alt=""><b>CASAVISION</b></a>
+    <a class="brand" href="index.html" data-go aria-label="CASAVISION"><span class="logo"></span></a>
     <span class="hdr-loc label">Dubai, UAE</span>
     <a class="hdr-cta label" href="index.html#contact">Tell us about your project</a>
     <a class="hdr-wa label" href="https://wa.me/971503065789" target="_blank" rel="noopener">WhatsApp</a>
+    <span class="hdr-lang"><span class="lang label"><a href="sensorial-dive.html" class="is-on" lang="en" data-go>EN</a><a href="ru/sensorial-dive.html" lang="ru" data-go>RU</a></span></span>
     <button class="hdr-menu label" type="button" data-menu-open aria-controls="menu" aria-expanded="false"><span class="burger" aria-hidden="true"><span></span><span></span></span>Menu</button>
   </div>
 </header>
 <div class="menu" id="menu" aria-hidden="true">
-  <div class="menu-scrim" data-menu-close></div>
   <div class="menu-panel wrap" role="dialog" aria-modal="true" aria-label="Menu">
     <div class="menu-top grid">
-      <a class="brand" href="index.html" data-go><img src="assets/brand/monogram.png" alt=""><b>CASAVISION</b></a>
+      <a class="brand" href="index.html" data-go aria-label="CASAVISION"><span class="logo"></span></a>
+      <span class="menu-lang"><span class="lang label"><a href="sensorial-dive.html" class="is-on" lang="en" data-go>EN</a><a href="ru/sensorial-dive.html" lang="ru" data-go>RU</a></span></span>
       <button class="menu-close label" type="button" data-menu-close>Close <span class="x" aria-hidden="true"></span></button>
     </div>
     <div class="menu-body grid">
@@ -43,7 +52,7 @@
       <div><span class="label">Write to us</span><a href="mailto:casavisiondxb@gmail.com">casavisiondxb@gmail.com</a><span>+971 50 306 5789</span></div>
       <div><span class="label">Socials</span><a href="#">Instagram</a><a href="#">LinkedIn</a><a href="https://wa.me/971503065789" target="_blank" rel="noopener">WhatsApp</a></div>
       <div><span class="label">Studio</span><span>CASAVISION L.L.C-FZ</span><span>Dubai, United Arab Emirates</span></div>
-      <div class="mi-cta"><span class="label">New project</span><a class="btn" href="index.html#contact" data-go>Tell us about your project</a></div>
+      <div class="mi-cta"><span class="label">New project</span><a class="btn" href="index.html#contact" data-go>Tell us about your project <i></i></a></div>
     </div>
   </div>
 </div>
@@ -53,7 +62,7 @@
     <div class="wrap"><div class="grid">
       <div class="media ph-img" data-r="img"><img src="assets/img/sensorial/cover.jpg" alt="Sensorial Dive"></div>
       <div class="ph-txt">
-        <a class="ph-back label" href="index.html#projects" data-go data-r><i></i>All projects</a>
+        <div data-r><a class="more back" href="index.html#projects" data-go><i></i> All projects</a></div>
         <div style="display:grid;gap:28px">
           <span class="label" data-r><span class="mute">06 / 06</span> <span class="sq gold"></span>Fragrance pop-up for Gucci</span>
           <h1 class="ph-title" data-r style="--d:.1s">Sensorial Dive</h1>
@@ -71,8 +80,8 @@
 
   <section class="p-story tone-dark" data-tone="dark">
     <div class="wrap"><div class="grid ps">
-      <div class="ps-block" data-r><span class="label">01 <span class="sq gold"></span>The brief</span><p>Sensorial Dive was born from a single question: what if a fragrance were not something you wore, but somewhere you went?</p></div>
-      <div class="ps-block" data-r style="--d:.15s"><span class="label">02 <span class="sq gold"></span>The idea</span><p>A corridor that pulls you forward, a light that beckons from the end, a room that blooms open like a secret. An immersive world built around the most intimate thing Gucci makes, and you are the one diving in.</p></div>
+      <div class="ps-block"><span class="label" data-r>01 <span class="sq gold"></span>The brief</span><p data-haze>Sensorial Dive was born from a single question: what if a fragrance were not something you wore, but somewhere you went?</p></div>
+      <div class="ps-block"><span class="label" data-r style="--d:.15s">02 <span class="sq gold"></span>The idea</span><p data-haze>A corridor that pulls you forward, a light that beckons from the end, a room that blooms open like a secret. An immersive world built around the most intimate thing Gucci makes, and you are the one diving in.</p></div>
     </div></div>
   </section>
 
@@ -89,7 +98,7 @@
     <div class="pm-stage">
       <div class="pm-head wrap"><div class="grid"><span class="label">04 <span class="sq gold"></span>Moodboard</span><p>The references move between the botanical and the surreal: water flow and structural glass, reflection and dissolution, the precision of a bottle and the abandon of a garden in full bloom.</p></div></div>
       <div class="pm-board">
-                <figure class="pm-item " style="--l:0%;--t:6%;--w:15%;--ml:0%;--mt:2%;--mw:34%;z-index:1"><img src="assets/img/sensorial/m1.jpg" alt="" loading="lazy"></figure>
+        <figure class="pm-item " style="--l:0%;--t:6%;--w:15%;--ml:0%;--mt:2%;--mw:34%;z-index:1"><img src="assets/img/sensorial/m1.jpg" alt="" loading="lazy"></figure>
         <figure class="pm-item " style="--l:17%;--t:0%;--w:18%;--ml:33%;--mt:6%;--mw:32%;z-index:2"><img src="assets/img/sensorial/m3.jpg" alt="" loading="lazy"></figure>
         <figure class="pm-item " style="--l:37%;--t:10%;--w:17%;--ml:66%;--mt:0%;--mw:34%;z-index:3"><img src="assets/img/sensorial/m6.jpg" alt="" loading="lazy"></figure>
         <figure class="pm-item " style="--l:56%;--t:0%;--w:15%;--ml:2%;--mt:33%;--mw:32%;z-index:1"><img src="assets/img/sensorial/m2.jpg" alt="" loading="lazy"></figure>
@@ -106,11 +115,11 @@
 
   <section class="p-gallery tone-light" data-tone="light">
     <div class="wrap">
-      <div class="grid sec-head" style="margin-bottom:clamp(56px,7vw,110px)"><span class="label" data-r>05 <span class="sq gold"></span>Visualisations</span><h2 data-r style="--d:.1s">The space, <em>room by room</em></h2></div>
+      <div class="grid sec-head" style="margin-bottom:clamp(56px,7vw,110px)"><span class="label" data-r>05 <span class="sq gold"></span>Visualisations</span><h2 data-r style="--d:.1s">From concept <em>to space</em></h2></div>
       <div class="grid pg">
         <figure class="pg-item w-left"><div class="media" data-r="img"><img src="assets/img/sensorial/room.jpg" alt="Sensorial Dive: Fragrance room" loading="lazy"></div><figcaption><span class="label">Fragrance room</span><span class="mute">Sensorial Dive</span></figcaption></figure>
         <figure class="pg-item w-small-r"><div class="media" data-r="img"><img src="assets/img/sensorial/corridor.jpg" alt="Sensorial Dive: The Deep Reveal" loading="lazy"></div><figcaption><span class="label">The Deep Reveal</span><span class="mute">Sensorial Dive</span></figcaption></figure>
-        <p class="pg-note" data-r>A digital screen of nature, water and Gucci aesthetic. A botanical plinth for each fragrance, with a bespoke floral arrangement that mirrors its notes. And at the corridor&#x27;s end, a beckoning purple light that invites guests to submerge themselves in the brand&#x27;s story.</p>
+        <p class="pg-note" data-haze>A digital screen of nature, water and Gucci aesthetic. A botanical plinth for each fragrance, with a bespoke floral arrangement that mirrors its notes. And at the corridor&#x27;s end, a beckoning purple light that invites guests to submerge themselves in the brand&#x27;s story.</p>
         <figure class="pg-item w-full"><div class="media" data-r="img"><img src="assets/img/sensorial/diagram.jpg" alt="Sensorial Dive: Spatial concept" loading="lazy"></div><figcaption><span class="label">Spatial concept</span><span class="mute">Sensorial Dive</span></figcaption></figure>
         <figure class="pg-item w-mid"><div class="media" data-r="img"><img src="assets/img/sensorial/plan.jpg" alt="Sensorial Dive: Pavilion and floor plan" loading="lazy"></div><figcaption><span class="label">Pavilion and floor plan</span><span class="mute">Sensorial Dive</span></figcaption></figure>
       </div>
@@ -118,20 +127,20 @@
   </section>
 
   <section class="p-result tone-dark" data-tone="dark">
-    <div class="blurmark" aria-hidden="true" data-fit="1">SENSORIAL DIVE</div>
-    <div class="wrap"><div class="grid"><span class="label">06 <span class="sq gold"></span>The result</span><blockquote data-r>Nature here is not decoration, it is architecture. Purple bleeds into pink bleeds into the memory of a scent you cannot name but have always known.</blockquote></div></div>
+    <div class="blurmark" aria-hidden="true" data-fit="1" data-par="-0.3">SENSORIAL DIVE</div>
+    <div class="wrap"><div class="grid"><span class="label">06 <span class="sq gold"></span>The result</span><blockquote data-haze>Nature here is not decoration, it is architecture. Purple bleeds into pink bleeds into the memory of a scent you cannot name but have always known.</blockquote></div></div>
   </section>
 
   <section class="p-cta tone-light" data-tone="light">
     <div class="wrap"><div class="grid">
       <h2 data-r>Want a concept <em>for your brand?</em></h2>
-      <div class="pc-side" data-r style="--d:.15s"><p>Tell us about the project: what you are launching, where and when. Prices are calculated individually.</p><a class="btn solid" href="index.html#contact" data-go>Tell us about your project</a></div>
+      <div class="pc-side" data-r style="--d:.15s"><p>Tell us about the project: what you are launching, where and when. Prices are calculated individually.</p><div><a class="btn solid" href="index.html#contact" data-go>Tell us about your project <i></i></a></div></div>
     </div></div>
   </section>
 
   <a class="p-next" href="fragments-de-paris.html" data-go data-tone="dark">
     <img src="assets/img/fragments/cover.jpg" alt="" loading="lazy">
-    <span class="pn-in wrap"><span class="label">Next project <span class="sq"></span>Residential interior</span><span class="pn-title">Fragments de Paris</span><span class="more">Open the story <i></i></span></span>
+    <span class="pn-in wrap"><span class="label">Next project <span class="sq"></span>Residential interior</span><span class="pn-title">Fragments de Paris</span><span><span class="more">Open the story <i></i></span></span></span>
   </a>
 </main>
 <footer class="ftr tone-ink" data-tone="dark">
@@ -143,9 +152,9 @@
       <div class="fc-4"><span class="label">Socials</span><a href="#">Instagram</a><a href="#">LinkedIn</a><a href="https://wa.me/971503065789" target="_blank" rel="noopener">WhatsApp</a></div>
       <div class="fc-5"><span class="label">Contact</span><a href="mailto:casavisiondxb@gmail.com">casavisiondxb@gmail.com</a><span>+971 50 306 5789</span></div>
     </div>
+    <div class="ftr-mark" aria-hidden="true"><div class="blurmark" data-fit="1" data-focus="0.16" data-focus-min="0.035">CASAVISION</div></div>
+    <div class="ftr-base"><span>© <span data-year>2026</span> CASAVISION Creative Atelier L.L.C-FZ</span><a href="#">Privacy policy</a><span>Dubai, UAE</span></div>
   </div>
-  <div class="ftr-mark" aria-hidden="true"><div class="blurmark" data-fit="0.98" data-focus="26" data-focus-min="0">CASAVISION</div></div>
-  <div class="wrap"><div class="ftr-base"><span>© <span data-year>2026</span> CASAVISION Creative Atelier L.L.C-FZ</span><a href="#">Privacy policy</a><span>Dubai, UAE</span></div></div>
 </footer>
 <script src="assets/js/site.js"></script>
 </body>

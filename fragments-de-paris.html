@@ -9,24 +9,33 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" href="assets/css/site.css">
 <link rel="icon" href="assets/brand/monogram.png">
+<style>.pm-item{left:var(--l);top:var(--t);width:var(--w)}.pm-word{left:var(--l);top:var(--t)}@media (max-width:760px){.pm-item{left:var(--ml);top:var(--mt);width:var(--mw)}.pm-word{left:var(--ml);top:var(--mt)}}</style>
+
 </head>
 <body>
-<style>.pm-item{left:var(--l);top:var(--t);width:var(--w)}.pm-word{left:var(--l);top:var(--t)}@media (max-width:760px){.pm-item{left:var(--ml);top:var(--mt);width:var(--mw)}.pm-word{left:var(--ml);top:var(--mt)}}</style>
-<div class="curtain" aria-hidden="true"><img src="assets/brand/monogram.png" alt=""></div>
+<div class="preloader" aria-hidden="true">
+  <div class="pl-in">
+    <span class="pl-logo"></span>
+    <span class="pl-bar"><i></i></span>
+    <span class="pl-meta label"><span>Dubai, UAE</span><span class="pl-num">0</span></span>
+  </div>
+</div>
+<div class="curtain" aria-hidden="true"><span class="pl-logo"></span></div>
 <header class="hdr wrap">
   <div class="grid">
-    <a class="brand" href="index.html" data-go aria-label="CASAVISION, home"><img src="assets/brand/monogram.png" alt=""><b>CASAVISION</b></a>
+    <a class="brand" href="index.html" data-go aria-label="CASAVISION"><span class="logo"></span></a>
     <span class="hdr-loc label">Dubai, UAE</span>
     <a class="hdr-cta label" href="index.html#contact">Tell us about your project</a>
     <a class="hdr-wa label" href="https://wa.me/971503065789" target="_blank" rel="noopener">WhatsApp</a>
+    <span class="hdr-lang"><span class="lang label"><a href="fragments-de-paris.html" class="is-on" lang="en" data-go>EN</a><a href="ru/fragments-de-paris.html" lang="ru" data-go>RU</a></span></span>
     <button class="hdr-menu label" type="button" data-menu-open aria-controls="menu" aria-expanded="false"><span class="burger" aria-hidden="true"><span></span><span></span></span>Menu</button>
   </div>
 </header>
 <div class="menu" id="menu" aria-hidden="true">
-  <div class="menu-scrim" data-menu-close></div>
   <div class="menu-panel wrap" role="dialog" aria-modal="true" aria-label="Menu">
     <div class="menu-top grid">
-      <a class="brand" href="index.html" data-go><img src="assets/brand/monogram.png" alt=""><b>CASAVISION</b></a>
+      <a class="brand" href="index.html" data-go aria-label="CASAVISION"><span class="logo"></span></a>
+      <span class="menu-lang"><span class="lang label"><a href="fragments-de-paris.html" class="is-on" lang="en" data-go>EN</a><a href="ru/fragments-de-paris.html" lang="ru" data-go>RU</a></span></span>
       <button class="menu-close label" type="button" data-menu-close>Close <span class="x" aria-hidden="true"></span></button>
     </div>
     <div class="menu-body grid">
@@ -43,7 +52,7 @@
       <div><span class="label">Write to us</span><a href="mailto:casavisiondxb@gmail.com">casavisiondxb@gmail.com</a><span>+971 50 306 5789</span></div>
       <div><span class="label">Socials</span><a href="#">Instagram</a><a href="#">LinkedIn</a><a href="https://wa.me/971503065789" target="_blank" rel="noopener">WhatsApp</a></div>
       <div><span class="label">Studio</span><span>CASAVISION L.L.C-FZ</span><span>Dubai, United Arab Emirates</span></div>
-      <div class="mi-cta"><span class="label">New project</span><a class="btn" href="index.html#contact" data-go>Tell us about your project</a></div>
+      <div class="mi-cta"><span class="label">New project</span><a class="btn" href="index.html#contact" data-go>Tell us about your project <i></i></a></div>
     </div>
   </div>
 </div>
@@ -53,7 +62,7 @@
     <div class="wrap"><div class="grid">
       <div class="media ph-img" data-r="img"><img src="assets/img/fragments/cover.jpg" alt="Fragments de Paris"></div>
       <div class="ph-txt">
-        <a class="ph-back label" href="index.html#projects" data-go data-r><i></i>All projects</a>
+        <div data-r><a class="more back" href="index.html#projects" data-go><i></i> All projects</a></div>
         <div style="display:grid;gap:28px">
           <span class="label" data-r><span class="mute">01 / 06</span> <span class="sq gold"></span>Residential interior</span>
           <h1 class="ph-title" data-r style="--d:.1s">Fragments de Paris</h1>
@@ -71,8 +80,8 @@
 
   <section class="p-story tone-dark" data-tone="dark">
     <div class="wrap"><div class="grid ps">
-      <div class="ps-block" data-r><span class="label">01 <span class="sq gold"></span>The brief</span><p>There are cities that live inside you before you ever arrive. Paris is one of them, and this apartment was designed to feel like the proof.</p></div>
-      <div class="ps-block" data-r style="--d:.15s"><span class="label">02 <span class="sq gold"></span>The idea</span><p>We believe that the most extraordinary spaces are not designed. They are distilled, from memory, from longing, from the courage to choose depth over novelty.</p></div>
+      <div class="ps-block"><span class="label" data-r>01 <span class="sq gold"></span>The brief</span><p data-haze>There are cities that live inside you before you ever arrive. Paris is one of them, and this apartment was designed to feel like the proof.</p></div>
+      <div class="ps-block"><span class="label" data-r style="--d:.15s">02 <span class="sq gold"></span>The idea</span><p data-haze>We believe that the most extraordinary spaces are not designed. They are distilled, from memory, from longing, from the courage to choose depth over novelty.</p></div>
     </div></div>
   </section>
 
@@ -89,7 +98,7 @@
     <div class="pm-stage">
       <div class="pm-head wrap"><div class="grid"><span class="label">04 <span class="sq gold"></span>Moodboard</span><p>An invitation to live fully inside a vision of life that refuses to be ordinary: classical mouldings, quiet light, ivory and walnut, one gesture of opulence per room.</p></div></div>
       <div class="pm-board">
-                <figure class="pm-item " style="--l:0%;--t:6%;--w:15%;--ml:0%;--mt:2%;--mw:34%;z-index:1"><img src="assets/img/fragments/m7.jpg" alt="" loading="lazy"></figure>
+        <figure class="pm-item " style="--l:0%;--t:6%;--w:15%;--ml:0%;--mt:2%;--mw:34%;z-index:1"><img src="assets/img/fragments/m7.jpg" alt="" loading="lazy"></figure>
         <figure class="pm-item " style="--l:17%;--t:0%;--w:18%;--ml:33%;--mt:6%;--mw:32%;z-index:2"><img src="assets/img/fragments/m2.jpg" alt="" loading="lazy"></figure>
         <figure class="pm-item cut" style="--l:37%;--t:10%;--w:17%;--ml:66%;--mt:0%;--mw:34%;z-index:3"><img src="assets/img/fragments/m9.png" alt="" loading="lazy"></figure>
         <figure class="pm-item " style="--l:56%;--t:0%;--w:15%;--ml:2%;--mt:33%;--mw:32%;z-index:1"><img src="assets/img/fragments/m3.jpg" alt="" loading="lazy"></figure>
@@ -109,7 +118,7 @@
 
   <section class="p-gallery tone-light" data-tone="light">
     <div class="wrap">
-      <div class="grid sec-head" style="margin-bottom:clamp(56px,7vw,110px)"><span class="label" data-r>05 <span class="sq gold"></span>Visualisations</span><h2 data-r style="--d:.1s">The space, <em>room by room</em></h2></div>
+      <div class="grid sec-head" style="margin-bottom:clamp(56px,7vw,110px)"><span class="label" data-r>05 <span class="sq gold"></span>Visualisations</span><h2 data-r style="--d:.1s">From concept <em>to space</em></h2></div>
       <div class="grid pg">
         <figure class="pg-item w-left"><div class="media" data-r="img"><img src="assets/img/fragments/living.jpg" alt="Fragments de Paris: Living room" loading="lazy"></div><figcaption><span class="label">Living room</span><span class="mute">Fragments de Paris</span></figcaption></figure>
         <figure class="pg-item w-small-r"><div class="media" data-r="img"><img src="assets/img/fragments/living-detail.jpg" alt="Fragments de Paris: Living room, detail" loading="lazy"></div><figcaption><span class="label">Living room, detail</span><span class="mute">Fragments de Paris</span></figcaption></figure>
@@ -122,20 +131,20 @@
   </section>
 
   <section class="p-result tone-dark" data-tone="dark">
-    <div class="blurmark" aria-hidden="true" data-fit="1">FRAGMENTS DE PARIS</div>
-    <div class="wrap"><div class="grid"><span class="label">06 <span class="sq gold"></span>The result</span><blockquote data-r>Here, every surface carries the quiet conviction that beauty is not decoration, but a way of taking the world seriously.</blockquote></div></div>
+    <div class="blurmark" aria-hidden="true" data-fit="1" data-par="-0.3">FRAGMENTS DE PARIS</div>
+    <div class="wrap"><div class="grid"><span class="label">06 <span class="sq gold"></span>The result</span><blockquote data-haze>Here, every surface carries the quiet conviction that beauty is not decoration, but a way of taking the world seriously.</blockquote></div></div>
   </section>
 
   <section class="p-cta tone-light" data-tone="light">
     <div class="wrap"><div class="grid">
       <h2 data-r>Want a concept <em>for your brand?</em></h2>
-      <div class="pc-side" data-r style="--d:.15s"><p>Tell us about the project: what you are launching, where and when. Prices are calculated individually.</p><a class="btn solid" href="index.html#contact" data-go>Tell us about your project</a></div>
+      <div class="pc-side" data-r style="--d:.15s"><p>Tell us about the project: what you are launching, where and when. Prices are calculated individually.</p><div><a class="btn solid" href="index.html#contact" data-go>Tell us about your project <i></i></a></div></div>
     </div></div>
   </section>
 
   <a class="p-next" href="the-hold.html" data-go data-tone="dark">
     <img src="assets/img/hold/cover.jpg" alt="" loading="lazy">
-    <span class="pn-in wrap"><span class="label">Next project <span class="sq"></span>Specialty coffee shop</span><span class="pn-title">The Hold</span><span class="more">Open the story <i></i></span></span>
+    <span class="pn-in wrap"><span class="label">Next project <span class="sq"></span>Specialty coffee shop</span><span class="pn-title">The Hold</span><span><span class="more">Open the story <i></i></span></span></span>
   </a>
 </main>
 <footer class="ftr tone-ink" data-tone="dark">
@@ -147,9 +156,9 @@
       <div class="fc-4"><span class="label">Socials</span><a href="#">Instagram</a><a href="#">LinkedIn</a><a href="https://wa.me/971503065789" target="_blank" rel="noopener">WhatsApp</a></div>
       <div class="fc-5"><span class="label">Contact</span><a href="mailto:casavisiondxb@gmail.com">casavisiondxb@gmail.com</a><span>+971 50 306 5789</span></div>
     </div>
+    <div class="ftr-mark" aria-hidden="true"><div class="blurmark" data-fit="1" data-focus="0.16" data-focus-min="0.035">CASAVISION</div></div>
+    <div class="ftr-base"><span>© <span data-year>2026</span> CASAVISION Creative Atelier L.L.C-FZ</span><a href="#">Privacy policy</a><span>Dubai, UAE</span></div>
   </div>
-  <div class="ftr-mark" aria-hidden="true"><div class="blurmark" data-fit="0.98" data-focus="26" data-focus-min="0">CASAVISION</div></div>
-  <div class="wrap"><div class="ftr-base"><span>© <span data-year>2026</span> CASAVISION Creative Atelier L.L.C-FZ</span><a href="#">Privacy policy</a><span>Dubai, UAE</span></div></div>
 </footer>
 <script src="assets/js/site.js"></script>
 </body>

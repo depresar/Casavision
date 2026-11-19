@@ -9,22 +9,55 @@
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
   function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
 
-  /* ---------- page curtain ---------- */
+  /* ---------- preloader (full once per session, a quick wipe after that) ---------- */
+  var pre = $('.preloader');
+  var ready = false;
+  var onReady = [];
+  function whenReady(fn) { if (ready) fn(); else onReady.push(fn); }
+  function finish() {
+    if (ready) return; ready = true;
+    doc.classList.add('ready');
+    if (pre) { pre.classList.add('is-done'); setTimeout(function () { pre.hidden = true; }, 1300); }
+    onReady.forEach(function (fn) { fn(); });
+  }
+  if (pre) {
+    var seen = false;
+    try { seen = sessionStorage.getItem('cv-pl') === '1'; sessionStorage.setItem('cv-pl', '1'); } catch (e) {}
+    if (seen || reduce) {
+      pre.classList.add('is-quick');
+      var quick = function () { requestAnimationFrame(function () { setTimeout(finish, 120); }); };
+      if (document.readyState !== 'loading') quick(); else document.addEventListener('DOMContentLoaded', quick);
+    } else {
+      var bar = $('.pl-bar', pre), num = $('.pl-num', pre);
+      var t0 = performance.now(), MIN = 1500, MAX = 3200, shown = 0, loaded = document.readyState === 'complete';
+      window.addEventListener('load', function () { loaded = true; });
+      var tick = function (now) {
+        var el = now - t0;
+        var target = loaded ? 1 : Math.min(0.9, el / 1800);
+        if (el > MAX) target = 1;
+        shown += (target - shown) * 0.12;
+        if (target === 1 && shown > 0.995) shown = 1;
+        bar.style.setProperty('--p', shown.toFixed(3));
+        num.textContent = Math.round(shown * 100);
+        if (shown >= 1 && el >= MIN) { setTimeout(finish, 180); return; }
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+  } else finish();
+  setTimeout(finish, 4000); // never keep the page covered
+
+  /* ---------- page curtain on internal navigation ---------- */
   var curtain = $('.curtain');
-  function lift() { if (curtain) requestAnimationFrame(function () { curtain.classList.add('is-up'); }); }
-  if (document.readyState === 'complete') lift(); else window.addEventListener('load', lift);
-  setTimeout(lift, 1800); // never keep the page covered
-  window.addEventListener('pageshow', function (e) { if (e.persisted && curtain) { curtain.classList.remove('is-cover', 'is-in'); curtain.classList.add('is-up'); } });
+  window.addEventListener('pageshow', function (e) { if (e.persisted && curtain) curtain.classList.remove('is-cover'); });
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[data-go]');
     if (!a || !curtain || reduce || e.metaKey || e.ctrlKey || e.shiftKey) return;
     var href = a.getAttribute('href');
-    if (!href) return;
+    if (!href || href.charAt(0) === '#') return;
     e.preventDefault();
-    curtain.classList.remove('is-up'); curtain.classList.add('is-in');
-    void curtain.offsetWidth;
-    curtain.classList.remove('is-in'); curtain.classList.add('is-cover');
-    setTimeout(function () { window.location.href = href; }, 900);
+    curtain.classList.add('is-cover');
+    setTimeout(function () { window.location.href = href; }, 850);
   });
 
   /* ---------- fit giant words to their box ---------- */
@@ -46,8 +79,30 @@
     var io = new IntersectionObserver(function (ents) {
       ents.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    $$('[data-r]').forEach(function (el) { io.observe(el); });
+    $$('[data-r]').forEach(function (el) {
+      if (el.closest('.hero')) whenReady(function () { setTimeout(function () { io.observe(el); }, 250); });
+      else io.observe(el);
+    });
   }
+
+  /* ---------- haze text: split into words ---------- */
+  var hazes = $$('[data-haze]');
+  hazes.forEach(function (el) {
+    (function walk(node) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+        if (n.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(function (w) {
+            if (!w) return;
+            if (/^\s+$/.test(w)) { frag.appendChild(document.createTextNode(w)); return; }
+            var sp = document.createElement('span'); sp.className = 'hz'; sp.textContent = w; frag.appendChild(sp);
+          });
+          node.replaceChild(frag, n);
+        } else if (n.nodeType === 1) walk(n);
+      });
+    })(el);
+    el._w = $$('.hz', el);
+  });
 
   /* ---------- header: tone + hide on scroll down ---------- */
   var hdr = $('.hdr');
@@ -175,11 +230,21 @@
       });
       marks.forEach(function (el) {
         // the wordmark comes into focus as its block reaches the middle of the screen
-        var host = el.parentElement.getBoundingClientRect();
-        var max = parseFloat(el.getAttribute('data-focus')) || 22;
+        var host = el.getBoundingClientRect();
+        var max = parseFloat(el.getAttribute('data-focus')) || 0.12;
         var end = parseFloat(el.getAttribute('data-focus-min') || 0);
-        var p = clamp((vh - host.top) / (vh * 0.9), 0, 1);
-        el.style.setProperty('--blur', (max - (max - end) * p).toFixed(1) + 'px');
+        var p = clamp((vh - host.top) / (host.height + vh * 0.04), 0, 1);
+        el.style.setProperty('--blur', (max - (max - end) * p).toFixed(3) + 'em');
+      });
+      hazes.forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.top > vh * 1.1 || r.bottom < -vh * 0.2) return;
+        var p = clamp((vh * 0.92 - r.top) / (vh * 0.5), 0, 1);
+        var n = el._w.length;
+        el._w.forEach(function (w, i) {
+          var local = clamp(p * 1.7 - (i / Math.max(1, n)) * 0.7, 0, 1);
+          w.style.setProperty('--h', (1 - local).toFixed(3));
+        });
       });
     }
     if (words && wordEls.length && !reduce) {

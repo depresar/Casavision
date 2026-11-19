@@ -22,8 +22,7 @@
   }
   if (pre) {
     var seen = false;
-    try { seen = sessionStorage.getItem('cv-pl') === '1'; sessionStorage.setItem('cv-pl', '1'); } catch (e) {}
-    if (seen || reduce) {
+    if (reduce) {
       pre.classList.add('is-quick');
       var quick = function () { requestAnimationFrame(function () { setTimeout(finish, 120); }); };
       if (document.readyState !== 'loading') quick(); else document.addEventListener('DOMContentLoaded', quick);
@@ -226,10 +225,12 @@
     steps.appendChild(cube);
     var pts = [], visible = false, start = null, SEG = 2600, HOPS = 3;
     var measure = function () {
-      var a = steps.getBoundingClientRect();
-      pts = items.map(function (it) { var b = it.getBoundingClientRect(); return [b.left - a.left, b.top - a.top - 12, b.width]; });
+      // the cube's bottom edge sits exactly on each step's top line
+      pts = items.map(function (it) { return [it.offsetLeft, it.offsetTop - 12, it.offsetWidth]; });
       var last = pts[pts.length - 1];
       pts.push([last[0] + last[2] - 12, last[1], 0]);
+      // a hop never lands in the gap between two lines: hops are spread over the line only
+      for (var k = 0; k < items.length; k++) pts[k][3] = pts[k][2] - 12;
     };
     var loop = function (now) {
       if (!visible) { start = null; return; }
@@ -240,10 +241,19 @@
       t = Math.min(t, total - 1);
       var seg = Math.floor(t / SEG), u = (t % SEG) / SEG;
       var A = pts[seg], B = pts[seg + 1];
-      var x = A[0] + (B[0] - A[0]) * u, y = A[1] + (B[1] - A[1]) * u;
-      var ph = (u * HOPS) % 1;                       // one hop
+      // HOPS hops along this line, the last one jumps over the gap onto the next line
+      var hopI = Math.min(HOPS - 1, Math.floor(u * HOPS)), ph = u * HOPS - hopI;
+      var lineLen = A[3], gapEnd = B[0] - A[0];
+      from = lineLen * hopI / HOPS;
+      var to = hopI === HOPS - 1 ? gapEnd : lineLen * (hopI + 1) / HOPS;
+      var e = ph < .5 ? 2 * ph * ph : 1 - Math.pow(-2 * ph + 2, 2) / 2;   // ease in-out
+      var x = A[0] + from + (to - from) * e, y = A[1] + (B[1] - A[1]) * (hopI === HOPS - 1 ? e : 0);
       var arc = Math.sin(Math.PI * ph);              // 0..1..0
       var h = 26 * Math.pow(arc, 0.85);
+      items.forEach(function (it, i) {
+        var f = i < seg ? 1 : i > seg ? 0 : clamp((x - A[0] + 12) / A[2], 0, 1);
+        it.style.setProperty('--fill-p', f.toFixed(3));
+      });
       var squash = Math.pow(1 - arc, 6);             // only near the line
       var sx = 1 + 0.35 * squash, sy = 1 - 0.3 * squash;
       cube.style.opacity = fade.toFixed(3);

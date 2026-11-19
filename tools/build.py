@@ -605,27 +605,12 @@ def home(artifact=False):
         <div class="ct-lines" data-r style="--d:.2s">
           <div class="ct-line"><span class="label">{t("Email", "Почта")}</span><a href="mailto:{EMAIL}">{EMAIL}</a></div>
           <div class="ct-line"><span class="label">{t("Phone", "Телефон")}</span><span>{PHONE}</span></div>
+          <div class="ct-line"><span class="label">{t("Socials", "Соцсети")}</span><span><a href="{IG}">Instagram</a>, <a href="{LI}">LinkedIn</a></span></div>
           <div class="ct-line"><span class="label">{t("Studio", "Студия")}</span><span>{t("Dubai, United Arab Emirates", "Дубай, ОАЭ")}</span></div>
         </div>
-        <div class="ct-quick" data-r style="--d:.25s"><a class="btn solid" href="{WA}" target="_blank" rel="noopener">WhatsApp</a><a class="btn" href="{IG}">Instagram</a><a class="btn" href="{LI}">LinkedIn</a></div>
+        <div class="ct-quick" data-r style="--d:.25s"><a class="btn solid" href="{WA}" target="_blank" rel="noopener">{t("Write on WhatsApp", "Написать в WhatsApp")} <i></i></a><a class="more" href="{IG}">Instagram <i></i></a><a class="more" href="{LI}">LinkedIn <i></i></a></div>
       </div>
-      <form class="form" id="brief" novalidate data-r style="--d:.15s">
-        <div class="f-row">
-          <div class="field"><label for="f-name">{t("Name", "Имя")}</label><input id="f-name" name="name" autocomplete="name" placeholder="{t('Your name', 'Как вас зовут')}" required></div>
-          <div class="field"><label for="f-brand">{t("Brand or company", "Бренд или компания")}</label><input id="f-brand" name="brand" autocomplete="organization" placeholder="{t('Brand name', 'Название бренда')}"></div>
-        </div>
-        <div class="f-row">
-          <div class="field"><label for="f-email">{t("Email", "Почта")}</label><input id="f-email" name="email" type="email" autocomplete="email" placeholder="you@brand.com" required></div>
-          <div class="field"><label for="f-phone">{t("Phone or WhatsApp", "Телефон или WhatsApp")}</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="+971"></div>
-        </div>
-        <fieldset>
-          <legend class="f-legend">{t("Service", "Услуга")}</legend>
-          <div class="chips">{''.join(f'<label class="chip"><input type="radio" name="service" id="f-svc-{i}" value="{i}"{" checked" if i == len(chips)-1 else ""}><span>{E(x)}</span></label>' for i, x in enumerate(chips))}</div>
-        </fieldset>
-        <div class="field"><label for="f-msg">{t("About the project", "О проекте")}</label><textarea id="f-msg" name="message" rows="3" placeholder="{t('What are you launching, where and when?', 'Что запускаете, где и когда?')}"></textarea></div>
-        <div class="f-foot"><p class="f-note">{t("By sending the form you agree to the privacy policy.", "Отправляя форму, вы соглашаетесь с политикой конфиденциальности.")}</p><button class="btn solid" type="submit">{t("Send request", "Отправить заявку")} <i></i></button></div>
-        <p class="f-done" role="status">{t("Thank you. Your request is with us, and we will be in touch soon.", "Спасибо! Заявка у нас, скоро свяжемся с вами.")}</p>
-      </form>
+      <div class="ct-media" data-r="img" style="--d:.15s"><video autoplay muted loop playsinline preload="metadata" poster="{R}assets/video/contact-poster.jpg"><source src="{R}assets/video/contact.mp4" type="video/mp4"></video></div>
     </div></div>
   </section>
 </main>

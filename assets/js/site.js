@@ -214,9 +214,9 @@
       var sh = shadow.offsetHeight;
       var y0 = mTop - aTop;                     // right under the cover's name
       var y1 = aH - sh - 20;                    // the end of About
-      var s0 = 0, s1 = Math.max(1, aTop + aH - vh);
-      var k = clamp((window.scrollY - s0) / (s1 - s0), 0, 1);
-      return y0 + (y1 - y0) * k;
+      // rides along at ~45% of the screen height once it has come out from under the cover
+      var anchor = window.scrollY + vh * (vh > window.innerWidth ? 0.42 : 0.5) - sh / 2 - aTop;
+      return clamp(anchor, y0, y1);
     };
     var shLoop = function () {
       var t = shTarget();

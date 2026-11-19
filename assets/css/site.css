@@ -214,7 +214,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .menu.is-open .menu-info > div { transition-delay: .55s; }
 
 /* ---------- hero (home) ---------- */
-.hero { position: relative; height: 100vh; height: 100svh; min-height: 520px; display: flex; flex-direction: column; overflow: hidden; background: var(--espresso); }
+.hero { position: relative; height: 100vh; height: 100dvh; min-height: 480px; display: flex; flex-direction: column; overflow: hidden; background: var(--espresso); }
 .hero-media { position: absolute; inset: 0; }
 .hero-media video, .hero-media img { width: 100%; height: 100%; object-fit: cover; }
 .hero-media::after {

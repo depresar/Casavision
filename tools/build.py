@@ -610,7 +610,7 @@ def home(artifact=False):
         </div>
         <div class="ct-quick" data-r style="--d:.25s"><a class="btn solid" href="{WA}" target="_blank" rel="noopener">{t("Write on WhatsApp", "Написать в WhatsApp")} <i></i></a><a class="more" href="{IG}">Instagram <i></i></a><a class="more" href="{LI}">LinkedIn <i></i></a></div>
       </div>
-      <div class="ct-media" data-r="img" style="--d:.15s"><video autoplay muted loop playsinline preload="metadata" poster="{R}assets/video/contact-poster.jpg"><source src="{R}assets/video/contact.mp4" type="video/mp4"></video></div>
+      <div class="ct-media" data-r="img" style="--d:.15s"><video autoplay muted loop playsinline preload="auto" poster="{R}assets/video/contact-poster.jpg"><source src="{R}assets/video/contact.mp4" type="video/mp4"></video></div>
     </div></div>
   </section>
 </main>

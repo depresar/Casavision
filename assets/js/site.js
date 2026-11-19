@@ -189,14 +189,33 @@
     if (!form.reportValidity || form.reportValidity()) { form.classList.add('is-sent'); store('cv-service', ''); }
   });
 
-  /* ---------- hero video: play only when visible ---------- */
-  var vid = $('.hero video');
-  if (vid) {
-    if (reduce) { vid.removeAttribute('autoplay'); vid.pause(); }
-    else if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (en) { en.forEach(function (x) { if (x.isIntersecting) { var p = vid.play(); if (p && p.catch) p.catch(function () {}); } else vid.pause(); }); }).observe(vid);
-    }
+  /* ---------- background videos: keep them playing (retry on every chance the browser gives) ---------- */
+  var vids = $$('video[autoplay]');
+  vids.forEach(function (v) {
+    v.muted = true; v.defaultMuted = true; v.playsInline = true;
+    v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
+    v._vis = true;
+    v._try = function () {
+      if (!v._vis || document.hidden || !v.paused) return;
+      var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+    };
+    ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough', 'stalled', 'suspend'].forEach(function (ev) { v.addEventListener(ev, v._try); });
+    // if the stream stalls, reload it once and continue
+    v.addEventListener('error', function () { if (!v._reloaded) { v._reloaded = true; v.load(); } });
+    v._try();
+  });
+  if ('IntersectionObserver' in window) {
+    var vio = new IntersectionObserver(function (en) {
+      en.forEach(function (x) { var v = x.target; v._vis = x.isIntersecting; if (v._vis) v._try(); else v.pause(); });
+    }, { rootMargin: '200px 0px' });
+    vids.forEach(function (v) { vio.observe(v); });
   }
+  var kick = function () { vids.forEach(function (v) { v._try(); }); };
+  document.addEventListener('visibilitychange', kick);
+  window.addEventListener('pageshow', kick);
+  window.addEventListener('focus', kick);
+  ['touchstart', 'pointerdown', 'scroll', 'keydown'].forEach(function (ev) { window.addEventListener(ev, kick, { passive: true }); });
+  setInterval(kick, 1500);
 
   /* ---------- hero name's shadow slides out from under the cover into About ---------- */
   var shadow = $('[data-shadow]');

@@ -229,7 +229,8 @@ def head(title, desc, artifact=False, extra=""):
 def preloader():
     return f'''<div class="preloader" aria-hidden="true">
   <div class="pl-in">
-    <span class="pl-logo"></span>
+    <span class="pl-word">CASAVISION</span>
+    <span class="pl-sub">Creative atelier</span>
   </div>
 </div>
 <div class="curtain" aria-hidden="true"><span class="pl-mono"></span></div>
@@ -423,7 +424,7 @@ def home(artifact=False):
           <span class="hc-txt"><span class="label mute">{t("Featured", "Избранное")}</span><span class="hc-title">{E(f['name'])}</span><span>{E(tr(f, 'kind'))}, {E(tr(f, 'where'))}</span><span class="more">{vp} <i></i></span></span>
           <span class="hc-img"><img src="{img(f, 'living.jpg')}" alt="{t('Living room of the Fragments de Paris apartment', 'Гостиная квартиры Fragments de Paris')}"></span>
         </a>
-        <h1 class="masthead" data-r style="--d:.25s"><span class="mh-word" data-fit="1" data-fit-h="0.24">CASAVISION</span><span class="mh-sub">Creative atelier</span></h1>
+        <h1 class="masthead is-waiting"><span class="mh-word" data-fit="1" data-fit-h="0.24">CASAVISION</span><span class="mh-sub">Creative atelier</span></h1>
       </div>
     </div>
   </section>

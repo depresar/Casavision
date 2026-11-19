@@ -17,7 +17,30 @@
   function finish() {
     if (ready) return; ready = true;
     doc.classList.add('ready');
-    if (pre) { pre.classList.add('is-done'); setTimeout(function () { pre.hidden = true; }, 1300); }
+    var mastEl = $('.masthead');
+    var reveal = function () { if (mastEl) mastEl.classList.remove('is-waiting'); };
+    if (!pre || pre.classList.contains('is-quick')) { reveal(); if (pre) pre.hidden = true; }
+    else {
+      var w1 = $('.pl-word', pre), s1 = $('.pl-sub', pre);
+      var w2 = mastEl && $('.mh-word', mastEl), s2 = mastEl && $('.mh-sub', mastEl);
+      var box = function (el) { var r = document.createRange(); r.selectNodeContents(el); return r.getBoundingClientRect(); };
+      var fly = function (from, to) {
+        var a = box(from), b = box(to);
+        var k = b.width / a.width;
+        var dx = (b.left + b.width / 2) - (a.left + a.width / 2), dy = (b.top + b.height / 2) - (a.top + a.height / 2);
+        from.style.transform = 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px) scale(' + k.toFixed(4) + ')';
+      };
+      var onScreen = w2 && w2.getBoundingClientRect().bottom > 0 && w2.getBoundingClientRect().top < window.innerHeight;
+      pre.classList.add('is-leaving');
+      if (onScreen && !reduce) {
+        fly(w1, w2); fly(s1, s2);
+        setTimeout(function () { reveal(); pre.classList.add('is-fading'); }, 1400);
+        setTimeout(function () { pre.classList.add('is-done'); pre.hidden = true; }, 1950);
+      } else {
+        pre.classList.add('is-fading'); reveal();
+        setTimeout(function () { pre.classList.add('is-done'); pre.hidden = true; }, 1300);
+      }
+    }
     onReady.forEach(function (fn) { fn(); });
   }
   if (pre) {

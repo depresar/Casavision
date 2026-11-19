@@ -189,7 +189,7 @@ P = [
         moodboard=[("m1.jpg", ""), ("m3.jpg", ""), ("m6.jpg", ""), ("m2.jpg", ""), ("m5.jpg", ""), ("m4.jpg", ""), ("m7.png", "cut")],
         gallery=[("room.jpg", "Fragrance room", "Комната ароматов", "w-left"), ("corridor.jpg", "The Deep Reveal", "Финальный коридор", "w-small-r"),
                  ("@note", "", "", ""),
-                 ("diagram.jpg", "Spatial concept", "Пространственная концепция", "w-full"), ("plan.jpg", "Pavilion and floor plan", "Павильон и план", "w-mid")],
+                 ("diagram.jpg", "Spatial concept", "Пространственная концепция", "w-full"), ("plan.jpg", "Pavilion", "Павильон", "w-mid")],
         note="A digital screen of nature, water and Gucci aesthetic. A botanical plinth for each fragrance, with a bespoke floral arrangement that mirrors its notes. And at the corridor's end, a beckoning purple light that invites guests to submerge themselves in the brand's story.",
         note_ru="Цифровой экран с природой, водой и эстетикой Gucci. Ботанический подиум для каждого аромата с авторской флористикой по его нотам. А в конце коридора манящий фиолетовый свет, приглашающий погрузиться в историю бренда.",
     ),
@@ -229,12 +229,13 @@ def head(title, desc, artifact=False, extra=""):
 def preloader():
     return f'''<div class="preloader" aria-hidden="true">
   <div class="pl-in">
+    <span class="pl-mono"></span>
     <span class="pl-logo"></span>
     <span class="pl-bar"><i></i></span>
     <span class="pl-meta label"><span>{t("Dubai, UAE", "Дубай, ОАЭ")}</span><span class="pl-num">0</span></span>
   </div>
 </div>
-<div class="curtain" aria-hidden="true"><span class="pl-logo"></span></div>
+<div class="curtain" aria-hidden="true"><span class="pl-mono"></span></div>
 '''
 
 
@@ -250,7 +251,7 @@ def header(home, page):
     h = "#" if home else "index.html#"
     return f'''{preloader()}<header class="hdr wrap">
   <div class="grid">
-    <a class="brand" href="{'#top' if home else 'index.html'}"{'' if home else ' data-go'} aria-label="CASAVISION"><span class="logo"></span></a>
+    <a class="brand" href="{'#top' if home else 'index.html'}"{'' if home else ' data-go'} aria-label="CASAVISION"><span class="mono"></span><span class="logo"></span></a>
     <span class="hdr-loc label">{t("Dubai, UAE", "Дубай, ОАЭ")}</span>
     <a class="hdr-cta label" href="{h}contact">{t("Tell us about your project", "Обсудить проект")}</a>
     <a class="hdr-wa label" href="{WA}" target="_blank" rel="noopener">WhatsApp</a>
@@ -281,7 +282,7 @@ def menu(home, page):
     return f'''<div class="menu" id="menu" aria-hidden="true">
   <div class="menu-panel wrap" role="dialog" aria-modal="true" aria-label="{t('Menu', 'Меню')}">
     <div class="menu-top grid">
-      <a class="brand" href="{'#top' if home else 'index.html'}"{go} aria-label="CASAVISION"><span class="logo"></span></a>
+      <a class="brand" href="{'#top' if home else 'index.html'}"{go} aria-label="CASAVISION"><span class="mono"></span><span class="logo"></span></a>
       <span class="menu-lang">{lang_switch(page)}</span>
       <button class="menu-close label" type="button" data-menu-close>{t("Close", "Закрыть")} <span class="x" aria-hidden="true"></span></button>
     </div>
@@ -424,14 +425,14 @@ def home(artifact=False):
           <span class="hc-txt"><span class="label mute">{t("Featured", "Избранное")}</span><span class="hc-title">{E(f['name'])}</span><span>{E(tr(f, 'kind'))}, {E(tr(f, 'where'))}</span><span class="more">{vp} <i></i></span></span>
           <span class="hc-img"><img src="{img(f, 'living.jpg')}" alt="{t('Living room of the Fragments de Paris apartment', 'Гостиная квартиры Fragments de Paris')}"></span>
         </a>
-        <h1 class="masthead" data-r style="--d:.25s"><span class="mh-word" data-fit="1">CASAVISION</span><span class="mh-sub">Creative atelier</span></h1>
+        <h1 class="masthead" data-r style="--d:.25s"><span class="mh-word" data-fit="1" data-fit-h="0.24">CASAVISION</span><span class="mh-sub">Creative atelier</span></h1>
       </div>
     </div>
   </section>
 
   <!-- ABOUT -->
   <section class="intro tone-light" id="about" data-tone="light">
-    <div class="blurmark" aria-hidden="true" data-focus="0.13" data-focus-min="0.06" data-par="-0.55">CASAVISION</div>
+    <div class="blurmark" aria-hidden="true" data-shadow>CASAVISION</div>
     <div class="wrap">
       <div class="grid intro-head">
         <span class="label" data-r>{t("About the atelier", "Об ателье")}</span>

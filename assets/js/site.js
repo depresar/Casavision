@@ -67,7 +67,11 @@
       el.style.fontSize = '100px';
       var rg = document.createRange(); rg.selectNodeContents(el);
       var w = rg.getBoundingClientRect().width;
-      if (w) el.style.fontSize = (100 * box / w).toFixed(2) + 'px';
+      var fs = w ? 100 * box / w : 100;
+      var capH = parseFloat(el.getAttribute('data-fit-h'));
+      if (capH) fs = Math.min(fs, window.innerHeight * capH);
+      el.style.fontSize = fs.toFixed(2) + 'px';
+      if (el._sync) el._sync();
     });
   }
   fit();
@@ -198,6 +202,59 @@
     }
   }
 
+  /* ---------- hero name's shadow follows the scroll through About ---------- */
+  var shadow = $('[data-shadow]');
+  var mast = $('.masthead .mh-word');
+  if (shadow && mast) {
+    shadow._sync = function () { shadow.style.fontSize = mast.style.fontSize; };
+    mast._sync = shadow._sync;
+    shadow._sync();
+  }
+
+  /* ---------- approach: a square hops from step to step ---------- */
+  var steps = $('.steps');
+  if (steps && !reduce && 'IntersectionObserver' in window) {
+    var items = $$('.step', steps);
+    var cube = document.createElement('span'); cube.className = 'step-cube'; cube.setAttribute('aria-hidden', 'true');
+    steps.appendChild(cube);
+    var cur = -1, timer = null, running = false;
+    var pos = function (i) { var a = steps.getBoundingClientRect(), b = items[i].getBoundingClientRect(); return [b.left - a.left, b.top - a.top - 6]; };
+    var place = function (i) { var q = pos(i); cube.style.transform = 'translate(' + q[0] + 'px,' + q[1] + 'px)'; };
+    var hop = function () {
+      var next = (cur + 1) % items.length;
+      if (next === 0) {
+        items.forEach(function (it) { it.classList.remove('is-on', 'is-now'); });
+        cube.style.opacity = '0';
+        setTimeout(function () { place(0); cube.style.opacity = '1'; cur = 0; items[0].classList.add('is-on', 'is-now'); timer = setTimeout(hop, 1500); }, 500);
+        return;
+      }
+      var a = pos(cur), b = pos(next);
+      var lift = Math.max(40, Math.abs(b[0] - a[0]) * 0.35);
+      var anim = cube.animate([
+        { transform: 'translate(' + a[0] + 'px,' + a[1] + 'px) rotate(0deg)' },
+        { transform: 'translate(' + ((a[0] + b[0]) / 2) + 'px,' + (Math.min(a[1], b[1]) - lift) + 'px) rotate(90deg)', offset: .5 },
+        { transform: 'translate(' + b[0] + 'px,' + b[1] + 'px) rotate(180deg)' }
+      ], { duration: 950, easing: 'cubic-bezier(.45,0,.3,1)' });
+      items[cur].classList.remove('is-now');
+      anim.onfinish = function () {
+        place(next); cur = next;
+        items[next].classList.add('is-on', 'is-now');
+        cube.animate([{ transform: cube.style.transform + ' scale(1.25,.7)' }, { transform: cube.style.transform }], { duration: 260, easing: 'ease-out' });
+        timer = setTimeout(hop, 1300);
+      };
+    };
+    new IntersectionObserver(function (en) {
+      en.forEach(function (x) {
+        if (x.isIntersecting && !running) {
+          running = true;
+          if (cur < 0) { cur = 0; place(0); items[0].classList.add('is-on', 'is-now'); timer = setTimeout(hop, 1100); }
+          else timer = setTimeout(hop, 600);
+        } else if (!x.isIntersecting && running) { running = false; clearTimeout(timer); }
+      });
+    }, { threshold: 0.35 }).observe(steps);
+    window.addEventListener('resize', function () { if (cur >= 0) place(cur); });
+  }
+
   /* ---------- scroll-linked effects ---------- */
   var par = $$('[data-par]');
   var marks = $$('[data-focus]');
@@ -246,6 +303,12 @@
           w.style.setProperty('--h', (1 - local).toFixed(3));
         });
       });
+    }
+    if (shadow && !reduce) {
+      var host = shadow.parentElement.getBoundingClientRect();
+      var sh = shadow.getBoundingClientRect().height;
+      var sp = clamp((vh - host.top) / host.height, 0, 1);
+      shadow.style.transform = 'translate3d(0,' + (sp * Math.max(0, host.height - sh)).toFixed(1) + 'px,0)';
     }
     if (words && wordEls.length && !reduce) {
       var r = words.getBoundingClientRect();

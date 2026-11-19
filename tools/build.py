@@ -229,10 +229,7 @@ def head(title, desc, artifact=False, extra=""):
 def preloader():
     return f'''<div class="preloader" aria-hidden="true">
   <div class="pl-in">
-    <span class="pl-mono"></span>
     <span class="pl-logo"></span>
-    <span class="pl-bar"><i></i></span>
-    <span class="pl-meta label"><span>{t("Dubai, UAE", "Дубай, ОАЭ")}</span><span class="pl-num">0</span></span>
   </div>
 </div>
 <div class="curtain" aria-hidden="true"><span class="pl-mono"></span></div>
@@ -319,6 +316,7 @@ def footer(home):
     <div class="ftr-base"><span>© <span data-year>2026</span> CASAVISION Creative Atelier L.L.C-FZ</span><a href="#">{t("Privacy policy", "Политика конфиденциальности")}</a><span>{t("Dubai, UAE", "Дубай, ОАЭ")}</span></div>
   </div>
 </footer>
+<button class="totop" type="button" aria-label="{t('Back to top', 'Наверх')}"><svg viewBox="0 0 54 54" aria-hidden="true"><circle class="tt-track" cx="27" cy="27" r="26"></circle><circle class="tt-bar" cx="27" cy="27" r="26"></circle></svg><i></i></button>
 <script src="{R}assets/js/site.js"></script>
 '''
 
@@ -594,7 +592,6 @@ def home(artifact=False):
       <div class="bel-grid">
 {chr(10).join(f'        <div class="bel" data-r style="--d:{(i%3)*0.1:.1f}s"><h3>{E(a)}</h3><p>{E(b)}</p></div>' for i, (a, b) in enumerate(beliefs))}
       </div>
-      <p class="motto" data-r="word">{t("Design by people. For people. Built to last.", "Дизайн от людей. Для людей. На годы вперёд.")}</p>
     </div>
   </section>
 

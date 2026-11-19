@@ -28,24 +28,12 @@
       var quick = function () { requestAnimationFrame(function () { setTimeout(finish, 120); }); };
       if (document.readyState !== 'loading') quick(); else document.addEventListener('DOMContentLoaded', quick);
     } else {
-      var bar = $('.pl-bar', pre), num = $('.pl-num', pre);
-      var t0 = performance.now(), MIN = 1500, MAX = 3200, shown = 0, loaded = document.readyState === 'complete';
-      window.addEventListener('load', function () { loaded = true; });
-      var tick = function (now) {
-        var el = now - t0;
-        var target = loaded ? 1 : Math.min(0.9, el / 1800);
-        if (el > MAX) target = 1;
-        shown += (target - shown) * 0.12;
-        if (target === 1 && shown > 0.995) shown = 1;
-        bar.style.setProperty('--p', shown.toFixed(3));
-        num.textContent = Math.round(shown * 100);
-        if (shown >= 1 && el >= MIN) { setTimeout(finish, 180); return; }
-        requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
+      var t0 = performance.now(), loaded = document.readyState === 'complete';
+      var done = function () { setTimeout(finish, Math.max(0, 1600 - (performance.now() - t0))); };
+      if (loaded) done(); else window.addEventListener('load', done);
     }
   } else finish();
-  setTimeout(finish, 4000); // never keep the page covered
+  setTimeout(finish, 3500); // never keep the page covered
 
   /* ---------- page curtain on internal navigation ---------- */
   var curtain = $('.curtain');
@@ -123,7 +111,6 @@
     hdr.classList.toggle('is-light', light);
     var sy = window.scrollY;
     hdr.classList.toggle('is-scrolled', sy > 40);
-    if (!document.body.classList.contains('is-locked')) hdr.classList.toggle('is-hidden', sy > lastY && sy > 400);
     lastY = sy;
   }
 
@@ -202,58 +189,81 @@
     }
   }
 
-  /* ---------- hero name's shadow follows the scroll through About ---------- */
+  /* ---------- hero name's shadow slides out from under the cover into About ---------- */
   var shadow = $('[data-shadow]');
   var mast = $('.masthead .mh-word');
+  var shY = null;
   if (shadow && mast) {
     shadow._sync = function () { shadow.style.fontSize = mast.style.fontSize; };
     mast._sync = shadow._sync;
     shadow._sync();
+    var shTarget = function () {
+      var about = shadow.parentElement;
+      var aTop = about.getBoundingClientRect().top + window.scrollY;
+      var aH = about.offsetHeight, vh = window.innerHeight;
+      var mTop = mast.getBoundingClientRect().top + window.scrollY;
+      var sh = shadow.offsetHeight;
+      var y0 = mTop - aTop;                     // right under the cover's name
+      var y1 = aH - sh - 20;                    // the end of About
+      var s0 = 0, s1 = Math.max(1, aTop + aH - vh);
+      var k = clamp((window.scrollY - s0) / (s1 - s0), 0, 1);
+      return y0 + (y1 - y0) * k;
+    };
+    var shLoop = function () {
+      var t = shTarget();
+      shY = shY === null ? t : shY + (t - shY) * 0.09;
+      shadow.style.transform = 'translate3d(0,' + shY.toFixed(2) + 'px,0)';
+      requestAnimationFrame(shLoop);
+    };
+    if (!reduce) requestAnimationFrame(shLoop);
   }
 
-  /* ---------- approach: a square hops from step to step ---------- */
+  /* ---------- approach: a square bounces continuously along the steps ---------- */
   var steps = $('.steps');
   if (steps && !reduce && 'IntersectionObserver' in window) {
     var items = $$('.step', steps);
     var cube = document.createElement('span'); cube.className = 'step-cube'; cube.setAttribute('aria-hidden', 'true');
     steps.appendChild(cube);
-    var cur = -1, timer = null, running = false;
-    var pos = function (i) { var a = steps.getBoundingClientRect(), b = items[i].getBoundingClientRect(); return [b.left - a.left, b.top - a.top - 6]; };
-    var place = function (i) { var q = pos(i); cube.style.transform = 'translate(' + q[0] + 'px,' + q[1] + 'px)'; };
-    var hop = function () {
-      var next = (cur + 1) % items.length;
-      if (next === 0) {
-        items.forEach(function (it) { it.classList.remove('is-on', 'is-now'); });
-        cube.style.opacity = '0';
-        setTimeout(function () { place(0); cube.style.opacity = '1'; cur = 0; items[0].classList.add('is-on', 'is-now'); timer = setTimeout(hop, 1500); }, 500);
-        return;
-      }
-      var a = pos(cur), b = pos(next);
-      var lift = Math.max(40, Math.abs(b[0] - a[0]) * 0.35);
-      var anim = cube.animate([
-        { transform: 'translate(' + a[0] + 'px,' + a[1] + 'px) rotate(0deg)' },
-        { transform: 'translate(' + ((a[0] + b[0]) / 2) + 'px,' + (Math.min(a[1], b[1]) - lift) + 'px) rotate(90deg)', offset: .5 },
-        { transform: 'translate(' + b[0] + 'px,' + b[1] + 'px) rotate(180deg)' }
-      ], { duration: 950, easing: 'cubic-bezier(.45,0,.3,1)' });
-      items[cur].classList.remove('is-now');
-      anim.onfinish = function () {
-        place(next); cur = next;
-        items[next].classList.add('is-on', 'is-now');
-        cube.animate([{ transform: cube.style.transform + ' scale(1.25,.7)' }, { transform: cube.style.transform }], { duration: 260, easing: 'ease-out' });
-        timer = setTimeout(hop, 1300);
-      };
+    var pts = [], visible = false, start = null, SEG = 2600, HOPS = 3;
+    var measure = function () {
+      var a = steps.getBoundingClientRect();
+      pts = items.map(function (it) { var b = it.getBoundingClientRect(); return [b.left - a.left, b.top - a.top - 12, b.width]; });
+      var last = pts[pts.length - 1];
+      pts.push([last[0] + last[2] - 12, last[1], 0]);
     };
+    var loop = function (now) {
+      if (!visible) { start = null; return; }
+      if (start === null) start = now;
+      var total = SEG * items.length;
+      var t = ((now - start) % (total + 600));
+      var fade = t > total ? 1 - (t - total) / 600 : Math.min(1, t / 400);
+      t = Math.min(t, total - 1);
+      var seg = Math.floor(t / SEG), u = (t % SEG) / SEG;
+      var A = pts[seg], B = pts[seg + 1];
+      var x = A[0] + (B[0] - A[0]) * u, y = A[1] + (B[1] - A[1]) * u;
+      var ph = (u * HOPS) % 1;                       // one hop
+      var arc = Math.sin(Math.PI * ph);              // 0..1..0
+      var h = 26 * Math.pow(arc, 0.85);
+      var squash = Math.pow(1 - arc, 6);             // only near the line
+      var sx = 1 + 0.35 * squash, sy = 1 - 0.3 * squash;
+      cube.style.opacity = fade.toFixed(3);
+      cube.style.transform = 'translate(' + x.toFixed(1) + 'px,' + (y - h).toFixed(1) + 'px) rotate(' + (arc * 45).toFixed(1) + 'deg) scale(' + sx.toFixed(3) + ',' + sy.toFixed(3) + ')';
+      items.forEach(function (it, i) { it.classList.toggle('is-on', i <= seg); it.classList.toggle('is-now', i === seg); });
+      requestAnimationFrame(loop);
+    };
+    measure();
+    window.addEventListener('resize', measure);
     new IntersectionObserver(function (en) {
       en.forEach(function (x) {
-        if (x.isIntersecting && !running) {
-          running = true;
-          if (cur < 0) { cur = 0; place(0); items[0].classList.add('is-on', 'is-now'); timer = setTimeout(hop, 1100); }
-          else timer = setTimeout(hop, 600);
-        } else if (!x.isIntersecting && running) { running = false; clearTimeout(timer); }
+        var was = visible; visible = x.isIntersecting;
+        if (visible && !was) { measure(); requestAnimationFrame(loop); }
       });
-    }, { threshold: 0.35 }).observe(steps);
-    window.addEventListener('resize', function () { if (cur >= 0) place(cur); });
+    }, { threshold: 0.2 }).observe(steps);
   }
+
+  /* ---------- back to top with progress ---------- */
+  var totop = $('.totop');
+  if (totop) totop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
 
   /* ---------- scroll-linked effects ---------- */
   var par = $$('[data-par]');
@@ -304,11 +314,11 @@
         });
       });
     }
-    if (shadow && !reduce) {
-      var host = shadow.parentElement.getBoundingClientRect();
-      var sh = shadow.getBoundingClientRect().height;
-      var sp = clamp((vh - host.top) / host.height, 0, 1);
-      shadow.style.transform = 'translate3d(0,' + (sp * Math.max(0, host.height - sh)).toFixed(1) + 'px,0)';
+    if (totop) {
+      var max = document.documentElement.scrollHeight - vh;
+      var pr = max > 0 ? window.scrollY / max : 0;
+      totop.style.setProperty('--p', pr.toFixed(4));
+      totop.classList.toggle('is-on', window.scrollY > vh * 0.8);
     }
     if (words && wordEls.length && !reduce) {
       var r = words.getBoundingClientRect();
